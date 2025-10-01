@@ -1,4 +1,4 @@
-package com.example.hcbc.global.common;
+package com.example.hcbc.global.common.enums;
 
 public enum Category {
     EXERCISE,
