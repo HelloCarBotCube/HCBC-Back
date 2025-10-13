@@ -1,4 +1,3 @@
-// src/main/java/com/example/hcbc/service/UserProfileService.java
 package com.example.hcbc.domain.user.service;
 
 import com.example.hcbc.domain.user.dto.ProfileResponseDto;
