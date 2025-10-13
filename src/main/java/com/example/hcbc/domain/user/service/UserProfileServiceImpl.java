@@ -1,13 +1,12 @@
 // src/main/java/com/example/hcbc/service/UserProfileServiceImpl.java
-package com.example.hcbc.service;
+package com.example.hcbc.domain.user.service;
 
-import com.example.hcbc.dto.ProfileResponseDto;
-import com.example.hcbc.entity.User;
-import com.example.hcbc.entity.UserDetail;
-import com.example.hcbc.repository.UserDetailRepository;
-import com.example.hcbc.repository.UserRepository;
-import com.example.hcbc.dto.ProfileResponseDto;
-import com.example.hcbc.dto.UpdateMyProfileRequestDto;
+import com.example.hcbc.domain.user.dto.ProfileResponseDto;
+import com.example.hcbc.domain.user.entity.User;
+import com.example.hcbc.domain.user.entity.UserDetail;
+import com.example.hcbc.domain.user.repository.UserDetailRepository;
+import com.example.hcbc.domain.user.repository.UserRepository;
+import com.example.hcbc.domain.user.dto.UpdateMyProfileRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

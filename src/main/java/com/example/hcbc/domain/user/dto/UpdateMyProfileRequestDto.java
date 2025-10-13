@@ -1,4 +1,4 @@
-package com.example.hcbc.dto;
+package com.example.hcbc.domain.user.dto;
 
 import com.example.hcbc.global.common.enums.Category;
 import com.example.hcbc.global.common.enums.Gender;

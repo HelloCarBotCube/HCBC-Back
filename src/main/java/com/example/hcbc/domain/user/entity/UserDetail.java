@@ -1,5 +1,5 @@
 // src/main/java/com/example/hcbc/entity/UserDetail.java
-package com.example.hcbc.entity;
+package com.example.hcbc.domain.user.entity;
 
 import com.example.hcbc.global.common.enums.Category;
 import com.example.hcbc.global.common.enums.Gender;

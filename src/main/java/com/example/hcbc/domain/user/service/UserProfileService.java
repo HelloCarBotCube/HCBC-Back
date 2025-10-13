@@ -1,8 +1,8 @@
 // src/main/java/com/example/hcbc/service/UserProfileService.java
-package com.example.hcbc.service;
+package com.example.hcbc.domain.user.service;
 
-import com.example.hcbc.dto.ProfileResponseDto;
-import com.example.hcbc.dto.UpdateMyProfileRequestDto;
+import com.example.hcbc.domain.user.dto.ProfileResponseDto;
+import com.example.hcbc.domain.user.dto.UpdateMyProfileRequestDto;
 
 public interface UserProfileService {
     ProfileResponseDto getOtherProfile(Long targetUserId);

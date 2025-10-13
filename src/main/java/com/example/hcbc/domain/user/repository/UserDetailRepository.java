@@ -1,6 +1,6 @@
-package com.example.hcbc.repository;
+package com.example.hcbc.domain.user.repository;
 
-import com.example.hcbc.entity.UserDetail;
+import com.example.hcbc.domain.user.entity.UserDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

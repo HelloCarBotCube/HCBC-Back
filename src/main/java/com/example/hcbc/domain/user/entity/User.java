@@ -1,5 +1,5 @@
 // src/main/java/com/example/user/domain/entity/User.java
-package com.example.hcbc.entity;
+package com.example.hcbc.domain.user.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
