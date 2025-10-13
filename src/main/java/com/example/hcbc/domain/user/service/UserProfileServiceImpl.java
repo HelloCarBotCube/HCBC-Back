@@ -1,4 +1,3 @@
-// src/main/java/com/example/hcbc/service/UserProfileServiceImpl.java
 package com.example.hcbc.domain.user.service;
 
 import com.example.hcbc.domain.user.dto.ProfileResponseDto;
@@ -13,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -31,10 +31,10 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public ProfileResponseDto getMyProfile(Long currentUserId) {
         UserDetail detail = userDetailRepository.findByUserId(currentUserId)
-                .orElseGet(() -> createEmptyDetail(currentUserId)); // 없으면 기본 생성
+                .orElseGet(() -> createEmptyDetail(currentUserId));
         return map(detail);
     }
 
@@ -48,8 +48,13 @@ public class UserProfileServiceImpl implements UserProfileService {
         if (request.getAge() != null)       detail.setAge(request.getAge());
         if (request.getAddress() != null)   detail.setAddress(request.getAddress());
         if (request.getGender() != null)    detail.setGender(request.getGender());
+
         if (request.getCategories() != null) {
-            detail.getCategories().clear();
+            if (detail.getCategories() == null) {
+                detail.setCategories(new LinkedHashSet<>());
+            } else {
+                detail.getCategories().clear();
+            }
             detail.getCategories().addAll(new LinkedHashSet<>(request.getCategories()));
         }
 
@@ -64,9 +69,10 @@ public class UserProfileServiceImpl implements UserProfileService {
                 .age(d.getAge())
                 .address(d.getAddress())
                 .gender(d.getGender())
-                .categories(d.getCategories())
+                .categories(d.getCategories() == null ? Set.of() : Set.copyOf(d.getCategories()))
                 .build();
     }
+
     @Transactional
     protected UserDetail createEmptyDetail(Long userId) {
         User user = userRepository.findById(userId)
@@ -75,7 +81,12 @@ public class UserProfileServiceImpl implements UserProfileService {
         UserDetail created = UserDetail.builder()
                 .user(user)
                 .build();
+
         created.setUserId(user.getId());
+
+        if (created.getCategories() == null) {
+            created.setCategories(new LinkedHashSet<>());
+        }
         return userDetailRepository.save(created);
     }
 }
