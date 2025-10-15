@@ -1,6 +1,5 @@
 package com.example.hcbc.global.exception;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
