@@ -20,7 +20,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class UpdateMyProfileServiceImpl implements UpdateMyProfileService {
 
-    private final UserRepository userRepository;
     private final UserDetailRepository userDetailRepository;
     private final UserUtil userUtil;
 

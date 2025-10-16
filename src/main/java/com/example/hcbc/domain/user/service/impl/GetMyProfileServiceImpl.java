@@ -18,7 +18,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class GetMyProfileServiceImpl implements GetMyProfileService {
 
-    private final UserRepository userRepository;
     private final UserDetailRepository userDetailRepository;
     private final UserUtil userUtil;
 
