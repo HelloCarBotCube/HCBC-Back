@@ -5,7 +5,6 @@ import com.example.hcbc.domain.user.dto.ProfileResponseDto;
 import com.example.hcbc.domain.user.entity.User;
 import com.example.hcbc.domain.user.entity.UserDetail;
 import com.example.hcbc.domain.user.repository.UserDetailRepository;
-import com.example.hcbc.domain.user.repository.UserRepository;
 import com.example.hcbc.domain.user.service.GetMyProfileService;
 import com.example.hcbc.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
