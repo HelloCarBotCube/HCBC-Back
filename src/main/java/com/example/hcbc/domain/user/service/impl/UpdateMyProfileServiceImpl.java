@@ -5,7 +5,6 @@ import com.example.hcbc.domain.user.dto.ProfileResponseDto;
 import com.example.hcbc.domain.user.entity.User;
 import com.example.hcbc.domain.user.entity.UserDetail;
 import com.example.hcbc.domain.user.repository.UserDetailRepository;
-import com.example.hcbc.domain.user.repository.UserRepository;
 import com.example.hcbc.domain.user.dto.UpdateMyProfileRequestDto;
 import com.example.hcbc.domain.user.service.UpdateMyProfileService;
 import com.example.hcbc.global.util.UserUtil;
@@ -37,12 +36,7 @@ public class UpdateMyProfileServiceImpl implements UpdateMyProfileService {
         if (request.getGender() != null)    detail.setGender(request.getGender());
 
         if (request.getCategories() != null) {
-            if (detail.getCategories() == null) {
-                detail.setCategories(new LinkedHashSet<>());
-            } else {
-                detail.getCategories().clear();
-            }
-            detail.getCategories().addAll(new LinkedHashSet<>(request.getCategories()));
+            detail.setCategories(new LinkedHashSet<>(request.getCategories()));
         }
 
         userDetailRepository.save(detail);
