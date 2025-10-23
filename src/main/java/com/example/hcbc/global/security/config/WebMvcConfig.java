@@ -1,4 +1,4 @@
-package com.example.hcbc.global.config;
+package com.example.hcbc.global.security.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
