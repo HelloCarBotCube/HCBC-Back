@@ -13,7 +13,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .allowedOriginPatterns("*")
                 .allowedMethods("*")
                 .allowedHeaders("*")
-                .exposedHeaders("Authorization")
-                .allowCredentials(true);
+                .exposedHeaders("Authorization", "token")
+                .allowCredentials(false);
     }
 }
