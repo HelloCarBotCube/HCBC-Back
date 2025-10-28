@@ -40,6 +40,20 @@ public class UserUtil {
                     .orElseThrow(NotFoundUserException::new);
         }
 
+        Object p = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (p instanceof com.example.hcbc.global.websocket.WsPrincipal wsp) {
+            Long userId = wsp.userId();
+        }
+
+        if (p instanceof com.example.hcbc.global.websocket.WsPrincipal wsp) {
+            return userRepository.getById(wsp.userId());
+        }
+
+        if (p instanceof String loginId) {
+            return userRepository.findByLoginId(loginId)
+                    .orElseThrow(InvalidUserPrincipalException::new);
+        }
+
         throw new InvalidUserPrincipalException();
     }
 }
