@@ -5,6 +5,7 @@ import com.example.hcbc.domain.user.dto.ProfileResponseDto;
 import com.example.hcbc.domain.user.entity.UserDetail;
 import com.example.hcbc.domain.user.repository.UserDetailRepository;
 import com.example.hcbc.domain.user.service.GetOtherProfileService;
+import com.example.hcbc.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,7 @@ public class GetOtherProfileServiceImpl implements GetOtherProfileService {
 
         return ProfileResponseDto.builder()
                 .userId(detail.getUserId())
+                .loginId(detail.getUser().getLoginId())
                 .name(detail.getName())
                 .age(detail.getAge())
                 .address(detail.getAddress())

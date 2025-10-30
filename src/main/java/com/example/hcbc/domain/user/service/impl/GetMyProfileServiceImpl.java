@@ -30,6 +30,7 @@ public class GetMyProfileServiceImpl implements GetMyProfileService {
 
         return ProfileResponseDto.builder()
                 .userId(detail.getUserId())
+                .loginId(user.getLoginId())
                 .name(detail.getName())
                 .age(detail.getAge())
                 .address(detail.getAddress())

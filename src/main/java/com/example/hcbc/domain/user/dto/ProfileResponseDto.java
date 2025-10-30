@@ -12,6 +12,7 @@ import java.util.Set;
 @Builder
 public class ProfileResponseDto {
     private Long userId;
+    private String loginId;
     private String name;
     private Integer age;
     private String address;
