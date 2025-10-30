@@ -47,6 +47,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(reg -> reg
                         .requestMatchers(HttpMethod.POST,  "/api/auth/signup", "/api/auth/signin").permitAll()
                         .requestMatchers(HttpMethod.PATCH, "/api/auth/reissue").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/auth/check-id").permitAll()
                         .requestMatchers("/**","/docs/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll() // /** 모든 권한 허용
                         .requestMatchers("/ws-stomp/**", "/ws-test", "/ws-test.html").permitAll()
                         .anyRequest().authenticated()
