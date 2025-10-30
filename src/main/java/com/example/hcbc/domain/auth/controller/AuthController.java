@@ -3,11 +3,9 @@ package com.example.hcbc.domain.auth.controller;
 import com.example.hcbc.domain.auth.dto.request.SignInRequest;
 import com.example.hcbc.domain.auth.dto.request.SignOutRequest;
 import com.example.hcbc.domain.auth.dto.request.SignUpRequest;
+import com.example.hcbc.domain.auth.dto.response.CheckIdResponse;
 import com.example.hcbc.domain.auth.dto.response.TokenResponse;
-import com.example.hcbc.domain.auth.service.ReissueToken;
-import com.example.hcbc.domain.auth.service.SignInService;
-import com.example.hcbc.domain.auth.service.SignOutService;
-import com.example.hcbc.domain.auth.service.SignUpService;
+import com.example.hcbc.domain.auth.service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,6 +26,12 @@ public class AuthController {
     public ResponseEntity<Void> signUp(@Valid @RequestBody SignUpRequest request) {
         signUpService.execute(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping("/check-id")
+    public CheckIdResponse checkId(@RequestParam String loginId) {
+        boolean available = signUpService.isLoginIdAvailable(loginId);
+        return new CheckIdResponse(available);
     }
 
     @PostMapping("/signin")
