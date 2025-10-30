@@ -47,6 +47,12 @@ public class SignUpServiceImpl implements SignUpService {
         userDetailRepository.save(userDetail);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public boolean isLoginIdAvailable(String loginId) {
+        return !userRepository.existsByLoginId(loginId);
+    }
+
     private void validateDuplicateLoginId(String loginId) {
         if (userRepository.existsByLoginId(loginId)) {
             throw new DuplicateLoginIdException();
