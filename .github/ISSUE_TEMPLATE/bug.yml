@@ -8,7 +8,7 @@ body:
       description: |
         [Description] 버그에 관한 설명을 적어주세요
       placeholder: |
-        conflict난거 그냥 merge해버림
+        
   - type: textarea
     attributes:
       label: Additional
