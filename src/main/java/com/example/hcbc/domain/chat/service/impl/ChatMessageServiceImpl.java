@@ -52,7 +52,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
         String displayName = resolveDisplayName(senderId);
 
-        ChatMessageResponse response = new ChatMessageResponse(roomId, senderId, displayName, request.content());
+        ChatMessageResponse response = new ChatMessageResponse(roomId, senderId, displayName, request.content(), timestamp);
         messaging.convertAndSend("/topic/room/" + roomId, response);
 
         return response;
@@ -67,8 +67,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
         long timestamp = Instant.now().toEpochMilli();
 
-        // 나가기 메시지 전송
-        ChatMessageResponse leaveResponse = new ChatMessageResponse(roomId, userId, null, null);
+        ChatMessageResponse leaveResponse = new ChatMessageResponse(roomId, userId, null, null, timestamp);
         messaging.convertAndSend("/topic/room/" + roomId, leaveResponse);
 
         // Redis 정리
@@ -96,22 +95,34 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     public List<ChatMessageResponse> getPastMessages(Long chatRoomId, int startIndex, int count) {
         String messageKey = RedisKey.ROOM_MESSAGES.of(String.valueOf(chatRoomId));
 
-        // Redis에서 메시지 리스트를 읽음
-        List<String> messageEntries = redis.opsForList().range(messageKey, startIndex, startIndex + count - 1);
+        Long totalSize = redis.opsForList().size(messageKey);
+        if (totalSize == null || totalSize == 0) {
+            return new ArrayList<>();
+        }
 
-        // 메시지를 ChatMessageResponse로 변환
+        long start = totalSize - startIndex - count;
+        long end = totalSize - startIndex - 1;
+
+        if (start < 0) start = 0;
+        if (end < 0) return new ArrayList<>();
+
+        List<String> messageEntries = redis.opsForList().range(messageKey, start, end);
+
         List<ChatMessageResponse> pastMessages = new ArrayList<>();
-        for (String entry : messageEntries) {
-            String[] parts = entry.split("\\|");
-            long timestamp = Long.parseLong(parts[0]);
-            String roomId = parts[1];
-            long senderId = Long.parseLong(parts[2]);
-            String content = parts[3];
+        if (messageEntries != null) {
+            for (int i = messageEntries.size() - 1; i >= 0; i--) {
+                String entry = messageEntries.get(i);
+                String[] parts = entry.split("\\|");
+                long timestamp = Long.parseLong(parts[0]);
+                String roomId = parts[1];
+                long senderId = Long.parseLong(parts[2]);
+                String content = parts[3];
 
-            String displayName = resolveDisplayName(senderId);
+                String displayName = resolveDisplayName(senderId);
 
-            ChatMessageResponse response = new ChatMessageResponse(roomId, senderId, displayName, content);
-            pastMessages.add(response);
+                ChatMessageResponse response = new ChatMessageResponse(roomId, senderId, displayName, content, timestamp);
+                pastMessages.add(response);
+            }
         }
 
         return pastMessages;
