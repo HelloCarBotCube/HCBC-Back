@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -27,7 +29,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     private final UserDetailRepository userDetailRepository;
     private final UserRepository userRepository;
 
-    private static final int MAX_CACHED_MESSAGES = 100;
+    private static final int MAX_CACHED_MESSAGES = 300;
     private static final int PREVIEW_MAX_LENGTH = 50;
 
     private final UserUtil userUtil;
@@ -88,6 +90,31 @@ public class ChatMessageServiceImpl implements ChatMessageService {
                 RedisKey.ROOM_MEMBERS.of(roomId), String.valueOf(userId)))) {
             throw new IllegalStateException("NOT_MEMBER");
         }
+    }
+
+    @Override
+    public List<ChatMessageResponse> getPastMessages(Long chatRoomId, int startIndex, int count) {
+        String messageKey = RedisKey.ROOM_MESSAGES.of(String.valueOf(chatRoomId));
+
+        // Redis에서 메시지 리스트를 읽음
+        List<String> messageEntries = redis.opsForList().range(messageKey, startIndex, startIndex + count - 1);
+
+        // 메시지를 ChatMessageResponse로 변환
+        List<ChatMessageResponse> pastMessages = new ArrayList<>();
+        for (String entry : messageEntries) {
+            String[] parts = entry.split("\\|");
+            long timestamp = Long.parseLong(parts[0]);
+            String roomId = parts[1];
+            long senderId = Long.parseLong(parts[2]);
+            String content = parts[3];
+
+            String displayName = resolveDisplayName(senderId);
+
+            ChatMessageResponse response = new ChatMessageResponse(roomId, senderId, displayName, content);
+            pastMessages.add(response);
+        }
+
+        return pastMessages;
     }
 
     private void updateMeta(String roomId, String content, long timestamp) {
