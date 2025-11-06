@@ -4,5 +4,6 @@ public record ChatMessageResponse(
         String roomId,
         Long senderId,
         String name,
-        String content
+        String content,
+        Long timestamp
 ) {}
