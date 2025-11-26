@@ -32,3 +32,9 @@ jwt:
   refresh-secret: hcbc-refresh-secret-key-2024-minimum-32-chars-required!
   access-ttl: 1h      # 1시간
   refresh-ttl: 7d     # 7일
+  
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui
